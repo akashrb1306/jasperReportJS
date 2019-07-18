@@ -1,0 +1,17 @@
+
+ .flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.flex-container>div {
+    margin: 10px;
+    text-align: center;
+}
+
+/* HIDE PREVIIEW BUTTON ON PRINT COMMAND */
+@media print {
+  .preview-button{
+    display: none;
+  }
+}

@@ -1,0 +1,147 @@
+<div *ngIf="is_print">
+
+  <div style="text-align:center">
+
+    <h1>
+      Welcome to {{ title }}!
+    </h1>
+
+  </div>
+
+  <!--*** FILE PICK OPTION GOES HERE ***-->
+  <div class="flex-container">
+
+    <div>
+
+      <b>Select File(Please choose only .jrxml file):</b>
+
+    </div>
+
+    <div>
+
+      <form [formGroup]="formGroup" novalidate (ngSubmit)="getTags()">
+        <input type="file" (change)="onFileChange($event)" />
+        <button type="submit" [disabled]="formGroup.invalid || formGroup.prestine">Submit</button>
+      </form>
+
+    </div>
+
+    <div>
+
+      <button (click)="is_print=false">Preview Page</button>
+
+    </div>
+
+  </div>
+  <!--*** END FILE PICK BLOCK***-->
+
+
+  <!--*** JSON PREVIEW GOES HERE ***-->
+  <div>
+
+    <li *ngFor="let obj of json"><b>{{obj.parameter_name}}:::</b>{{obj | json}}</li>
+
+  </div>
+  <!--*** END JSON BLOCK***-->
+
+</div>
+
+
+
+<!--******************************************* PAGE PREVIEW GOES HERE ***************************************-->
+
+<div *ngIf="!is_print">
+
+  <!--*** CLOSE THE PAGE PREVIEW ***-->
+  <div class="preview-button">
+    <button style="float:right" (click)="is_print=true">Close Preview</button>
+  </div>
+
+
+  <!--*** [ngStyle] are load from json for style.***-->
+
+  <!--*** PAGE SETUP GOES HERE ***-->
+  <div *ngIf="!is_print" [ngStyle]="{'height':json[1].band_height}"
+    [ngStyle]="{'height':json[0].pageHeight+ 'px','width':json[0].pageWidth+ 'px','margin-top':json[0].topMargin + 'px','margin-bottom': json[0].bottomMargin+ 'px','margin-right': json[0].rightMargin+ 'px','margin-left': json[0].leftMargin+ 'px'}">
+    <!--*** END PAGE SETUP BLOCK***-->
+
+
+    <!--*** HEADER GOES HERE ***-->
+    <div class="page-header" [ngStyle]="{'height':json[1].band_height + 'px'}" style="position: fixed;  top: 0mm;">
+      <div [ngStyle]="{'height':json[1].report_element.height + 'px','width':json[1].report_element.width + 'px'}">
+        {{json[1].text}}
+      </div>
+    </div>
+    <!--*** END HEADER BLOCK***-->
+
+
+
+    <!--*** FOOTER GOES HERE ***-->
+    <div class="page-footer" [ngStyle]="{'height':json[4].band_height + 'px'}" style="position: fixed; bottom: 0;">
+      <p [ngStyle]="{'height':json[4].report_element.height + 'px','width':json[4].report_element.width + 'px'}">
+        {{json[4].text}}
+      </p>
+    </div>
+    <!--*** END FOOTER BLOCK***-->
+
+
+
+    <table>
+
+      <tbody>
+
+        <tr>
+
+          <td>
+
+            <!--*** CONTENT GOES HERE ***-->
+            <div class="page">
+
+              <table>
+
+                <thead>
+
+                  <!--*** COLOUMN HEADER GOES HERE AND ALSO FIXED POSTION HEADER***-->
+                  <tr [ngStyle]="{'height':json[2].band_height + 'px' }">
+
+                    <td *ngFor="let obj of json[2].textField"
+                      [ngStyle]="{'height':obj.height + 'px','width':obj.width + 'px','margin-tp':obj.x + 'px'}">
+                      {{obj.text}}
+                    </td>
+
+                  </tr>
+                  <!--*** END COLOUMN HEADER BLOCK***-->
+
+                </thead>
+
+                <tbody>
+
+                  <tr *ngFor="let obj of json[3].band" [ngStyle]="{'height':obj.band_height + 'px' }">
+
+                    <!--*** DETAIL GOES HERE ***-->
+                    <td *ngFor="let value of obj.textField"
+                      [ngStyle]="{'height':value.height + 'px','width':value.width + 'px'}">
+                      {{value.text}}
+                    </td>
+                    <!--*** END DETAIL BLOCK***-->
+
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+            <!--*** END CONTENT BLOCK***-->
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
