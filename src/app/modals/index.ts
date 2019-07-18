@@ -1,0 +1,1 @@
+export { PAGE_SETUP_JSON } from './pageSetup';
